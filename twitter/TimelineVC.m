@@ -7,6 +7,13 @@
 //
 
 #import "TimelineVC.h"
+#import "TweetCell.h"
+#import "UIImageView+AFNetworking.h"
+
+#define nameHeight 21.0f
+#define spaceBetweenNameAndText 7.0f
+#define cellWidth 320.0f
+#define cellMargin 11.0f
 
 @interface TimelineVC ()
 
@@ -34,8 +41,19 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
+    self.navigationController.navigationBar.backgroundColor = [UIColor blueColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blueColor];
+    
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Twitter_logo_blue.png"]];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"187-pencil.png"] style:UIBarButtonItemStylePlain target:self action:@selector(compose)];
 
+    UINib *nib = [UINib nibWithNibName:@"TweetCell" bundle:nil];
+    [[self tableView] registerNib:nib forCellReuseIdentifier:@"TweetCell"];
+    
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -63,14 +81,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-
+    static NSString *CellIdentifier = @"TweetCell";
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
     Tweet *tweet = self.tweets[indexPath.row];
-    cell.textLabel.text = tweet.text;
+    cell.tweetText.text = tweet.text;
+    cell.username.text = tweet.username;
+    cell.screenName.text = tweet.screenName;
+    cell.tweetDate.text = tweet.tweetDate;
+    [cell.profileImageView setImageWithURL:tweet.profileImageURL];
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Tweet *tweet = self.tweets[indexPath.row];
+    CGSize constraint = CGSizeMake(cellWidth - (cellMargin * 2), 20000.0f);
+    
+    NSDictionary *stringAttributes = [NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:14.0f] forKey: NSFontAttributeName];
+    
+    CGSize textSize = [tweet.text boundingRectWithSize:constraint options: NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:stringAttributes context:nil].size;
+    
+    
+    CGFloat height = textSize.height;
+    return height + (cellMargin * 2) + nameHeight + spaceBetweenNameAndText;
 }
 
 /*
@@ -138,7 +173,7 @@
 
 - (void)reload {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
-        NSLog(@"%@", response);
+//        NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

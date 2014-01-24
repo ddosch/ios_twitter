@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4447" systemVersion="13A451" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3671"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="170" id="Qkj-jp-q4f" customClass="TweetCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qkj-jp-q4f" id="ZRU-ca-Fdx">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eju-IQ-mUY">
+                        <rect key="frame" x="20" y="10" width="51" height="51"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="51" id="Ay5-hF-IU7"/>
+                            <constraint firstAttribute="width" constant="51" id="YRO-cv-Ojs"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Conan O'Brien" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZ2-cM-clf">
+                        <rect key="frame" x="79" y="10" width="89" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="xKR-oc-RAi"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ConanOBrien" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N2e-EM-kOV">
+                        <rect key="frame" x="176" y="14" width="79" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3h" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="544-lG-VoL">
+                        <rect key="frame" x="287" y="14" width="13" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone captured the moment when I pitched Wayne Gretsky my new nickname: &quot;The Other Great One&quot;: bit.ly/1aQeO7d" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="221" translatesAutoresizingMaskIntoConstraints="NO" id="7OK-Zf-NxX">
+                        <rect key="frame" x="79" y="38" width="221" height="63"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="N2e-EM-kOV" firstAttribute="leading" secondItem="gZ2-cM-clf" secondAttribute="trailing" constant="8" id="6MJ-7e-wIh"/>
+                    <constraint firstItem="gZ2-cM-clf" firstAttribute="top" secondItem="ZRU-ca-Fdx" secondAttribute="top" constant="10" id="DhU-1w-cj1"/>
+                    <constraint firstItem="544-lG-VoL" firstAttribute="top" secondItem="ZRU-ca-Fdx" secondAttribute="top" constant="14" id="FiJ-9d-7Df"/>
+                    <constraint firstItem="N2e-EM-kOV" firstAttribute="top" secondItem="ZRU-ca-Fdx" secondAttribute="top" constant="14" id="IW1-VS-ztT"/>
+                    <constraint firstItem="gZ2-cM-clf" firstAttribute="leading" secondItem="eju-IQ-mUY" secondAttribute="trailing" constant="8" id="NXW-Vx-hGP"/>
+                    <constraint firstItem="eju-IQ-mUY" firstAttribute="top" secondItem="ZRU-ca-Fdx" secondAttribute="top" constant="10" id="T5F-oZ-A43"/>
+                    <constraint firstAttribute="trailing" secondItem="544-lG-VoL" secondAttribute="trailing" constant="20" id="VwP-5S-0kK"/>
+                    <constraint firstItem="7OK-Zf-NxX" firstAttribute="top" secondItem="gZ2-cM-clf" secondAttribute="bottom" constant="7" id="VzB-9s-DEp"/>
+                    <constraint firstItem="eju-IQ-mUY" firstAttribute="leading" secondItem="ZRU-ca-Fdx" secondAttribute="leading" constant="20" id="XAn-pI-3OI"/>
+                    <constraint firstAttribute="trailing" secondItem="7OK-Zf-NxX" secondAttribute="trailing" constant="20" id="dk4-1Z-9Oa"/>
+                    <constraint firstItem="7OK-Zf-NxX" firstAttribute="leading" secondItem="eju-IQ-mUY" secondAttribute="trailing" constant="8" id="yX3-D5-cno"/>
+                    <constraint firstItem="N2e-EM-kOV" firstAttribute="leading" secondItem="gZ2-cM-clf" secondAttribute="trailing" constant="8" id="zEn-iC-Pjd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="profileImageView" destination="eju-IQ-mUY" id="gJw-QS-Mml"/>
+                <outlet property="screenName" destination="N2e-EM-kOV" id="eHw-gt-cwa"/>
+                <outlet property="tweetDate" destination="544-lG-VoL" id="6Me-Yl-TeC"/>
+                <outlet property="tweetText" destination="7OK-Zf-NxX" id="598-jd-MQ9"/>
+                <outlet property="username" destination="gZ2-cM-clf" id="1Da-fA-DIW"/>
+            </connections>
+        </tableViewCell>
     </objects>
 </document>
