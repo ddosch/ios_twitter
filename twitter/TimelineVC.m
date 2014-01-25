@@ -9,6 +9,8 @@
 #import "TimelineVC.h"
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "TweetViewController.h"
+#import "ComposeViewController.h"
 
 #define nameHeight 21.0f
 #define spaceBetweenNameAndText 7.0f
@@ -21,6 +23,7 @@
 
 - (void)onSignOutButton;
 - (void)reload;
+- (void)compose;
 
 @end
 
@@ -59,6 +62,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)compose {
+    ComposeViewController *cvc = [[ComposeViewController alloc] initWithNibName:@"ComposeViewController" bundle:[NSBundle mainBundle]];
+    [self.navigationController pushViewController:cvc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,6 +116,13 @@
     return height + (cellMargin * 2) + nameHeight + spaceBetweenNameAndText;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Tweet *tweet = self.tweets[indexPath.row];
+    TweetViewController *tvc = [[TweetViewController alloc] initWithNibName:@"TweetViewController" bundle:[NSBundle mainBundle]];
+    tvc.tweet = tweet;
+    [self.navigationController pushViewController:tvc animated:YES];
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -149,9 +164,9 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
 
 /*
 #pragma mark - Navigation
@@ -173,7 +188,7 @@
 
 - (void)reload {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
-//        NSLog(@"%@", response);
+        NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

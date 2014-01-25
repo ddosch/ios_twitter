@@ -48,4 +48,16 @@ static User *_currentUser;
     }
 }
 
++ (NSString *)currentUserName {
+    return [[User currentUser].data valueOrNilForKeyPath:@"name"];
+}
+
++ (NSString *)currentUserScreenName {
+    return [NSString stringWithFormat:@"@%@", [[User currentUser].data valueOrNilForKeyPath:@"screen_name"]];
+}
+
++ (NSURL *)currentUserProfileImageURL {
+    return [NSURL URLWithString:[[User currentUser].data valueOrNilForKeyPath:@"profile_image_url"]];
+}
+
 @end

@@ -51,6 +51,25 @@
     return [dateFormatOut stringFromDate:date];
 }
 
+- (NSString *)tweetDateFull {
+    NSString *createdAt = [self.data valueOrNilForKeyPath:@"created_at"];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"EEE MMM d HH:mm:ss Z yyyy"];
+    NSDate *date = [dateFormat dateFromString:createdAt];
+    
+    NSDateFormatter *dateFormatOut = [[NSDateFormatter alloc] init];
+    [dateFormatOut setDateFormat:@"MM/dd/yy HH:mm a"];
+    return [dateFormatOut stringFromDate:date];
+}
+
+- (NSString *)retweets {
+    return [NSString stringWithFormat:@"%@", [self.data valueOrNilForKeyPath:@"retweet_count"]];
+}
+
+- (NSString *)favorites {
+    return [NSString stringWithFormat:@"%@", [self.data valueOrNilForKeyPath:@"favorite_count"]];
+}
+
 + (NSMutableArray *)tweetsWithArray:(NSArray *)array {
     NSMutableArray *tweets = [[NSMutableArray alloc] initWithCapacity:array.count];
     for (NSDictionary *params in array) {
