@@ -54,15 +54,29 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
 
 #pragma mark - Statuses API
 
-- (void)homeTimelineWithCount:(int)count sinceId:(int)sinceId maxId:(int)maxId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+- (void)homeTimelineWithCount:(int)count sinceId:(int)sinceId maxId:(NSString *)maxId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"count": @(count)}];
     if (sinceId > 0) {
         [params setObject:@(sinceId) forKey:@"since_id"];
     }
-    if (maxId > 0) {
-        [params setObject:@(maxId) forKey:@"max_id"];
+    if (maxId  != nil) {
+        [params setObject:maxId forKey:@"max_id"];
     }
     [self getPath:@"1.1/statuses/home_timeline.json" parameters:params success:success failure:failure];
+}
+
+- (void)retweet:(NSString *)tweetIdStr success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+    [self postPath:[NSString stringWithFormat:@"1.1/statuses/retweet/%@.json", tweetIdStr] parameters:nil success:success failure:failure];
+}
+
+- (void)favorite:(NSString *)tweetIdStr success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+    NSDictionary *params = @{@"id": tweetIdStr};
+    [self postPath:@"1.1/favorites/create.json" parameters:params success:success failure:failure];
+}
+
+- (void)tweet:(NSString *)tweetStr success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+    NSDictionary *params = @{@"status": tweetStr};
+    [self postPath:@"1.1/statuses/update.json" parameters:params success:success failure:failure];
 }
 
 #pragma mark - Private methods

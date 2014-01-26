@@ -14,8 +14,22 @@
     return [self.data valueOrNilForKeyPath:@"text"];
 }
 
+- (NSString *)idStr {
+    return [self.data valueOrNilForKeyPath:@"id_str"];
+}
+
 - (NSString *)username {
     return [self.data valueOrNilForKeyPath:@"user.name"];
+}
+
+- (BOOL)favorited {
+    NSString *f = [NSString stringWithFormat:@"%@", [self.data valueOrNilForKeyPath:@"favorited"]];
+    return [f isEqualToString:@"1"];
+}
+
+- (BOOL)retweeted {
+    NSString *f = [NSString stringWithFormat:@"%@", [self.data valueOrNilForKeyPath:@"retweeted"]];
+    return [f isEqualToString:@"1"];
 }
 
 - (NSString *)screenName {

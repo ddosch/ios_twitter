@@ -15,7 +15,7 @@
 #define nameHeight 21.0f
 #define spaceBetweenNameAndText 7.0f
 #define cellWidth 320.0f
-#define cellMargin 11.0f
+#define cellMargin 13.0f
 
 @interface TimelineVC ()
 
@@ -23,6 +23,7 @@
 
 - (void)onSignOutButton;
 - (void)reload;
+- (void)loadMore;
 - (void)compose;
 
 @end
@@ -56,6 +57,10 @@
     UINib *nib = [UINib nibWithNibName:@"TweetCell" bundle:nil];
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"TweetCell"];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor blueColor];
+    [refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -180,6 +185,30 @@
 
  */
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSInteger currentOffset = scrollView.contentOffset.y;
+    NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    
+    if (maximumOffset - currentOffset <= 40) {
+        Tweet *tweet = self.tweets[self.tweets.count-1];
+        int curSize = self.tweets.count;
+        
+        [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:tweet.idStr success:^(AFHTTPRequestOperation *operation, id response) {
+            NSLog(@"%@", response);
+            [self.tweets addObjectsFromArray:[Tweet tweetsWithArray:response]];
+            NSMutableArray *reloadIndexes = [[NSMutableArray alloc] init];
+            for (int i=curSize; i<self.tweets.count; i++) {
+                [reloadIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+            
+            [self.tableView insertRowsAtIndexPaths:reloadIndexes withRowAnimation:UITableViewRowAnimationBottom];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            // Do nothing
+        }];
+    }
+}
+
 #pragma mark - Private methods
 
 - (void)onSignOutButton {
@@ -187,6 +216,17 @@
 }
 
 - (void)reload {
+    [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
+        NSLog(@"%@", response);
+        self.tweets = [Tweet tweetsWithArray:response];
+        [self.tableView reloadData];
+        [self.refreshControl endRefreshing];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Do nothing
+    }];
+}
+
+- (void)loadMore {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
         NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];

@@ -53,7 +53,15 @@
     self.username.text = [User currentUserName];
     self.screenName.text = [User currentUserScreenName];
     [self.profileImage setImageWithURL:[User currentUserProfileImageURL]];
+    
+    if (self.replyTo != nil) {
+        self.tweetTextView.text = self.replyTo;
+        self.tweetTextView.textColor = [UIColor blackColor];
+        self.charsLeft.text = [NSString stringWithFormat:@"%d", 140 - self.tweetTextView.text.length];
+    }
+    
     self.tweetTextView.delegate = self;
+    [self.tweetTextView becomeFirstResponder];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -89,7 +97,12 @@
 }
 
 - (void)tweet {
-    
+    [[TwitterClient instance] tweet:self.tweetTextView.text success:^(AFHTTPRequestOperation *operation, id response) {
+        NSLog(@"%@", response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error.localizedDescription);
+    }];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

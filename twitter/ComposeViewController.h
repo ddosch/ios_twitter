@@ -10,4 +10,6 @@
 
 @interface ComposeViewController : UIViewController<UITextViewDelegate>
 
+@property (nonatomic, strong) NSString *replyTo;
+
 @end

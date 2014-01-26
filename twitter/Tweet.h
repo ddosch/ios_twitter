@@ -18,6 +18,9 @@
 @property (nonatomic, strong, readonly) NSString *retweets;
 @property (nonatomic, strong, readonly) NSString *favorites;
 @property (nonatomic, strong, readonly) NSURL *profileImageURL;
+@property (nonatomic, strong, readonly) NSString *idStr;
+@property (nonatomic, assign, readonly) BOOL favorited;
+@property (nonatomic, assign, readonly) BOOL retweeted;
 
 + (NSMutableArray *)tweetsWithArray:(NSArray *)array;
 
